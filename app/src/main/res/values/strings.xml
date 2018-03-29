@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">TestForZennex</string>
+    <string name="app_name">Test For Zennex</string>
     <string name="splash_text">Тестовое задание</string>
+    <string name="cant_back">Нельзя вернуться назад</string>
+    <string name="tab1">первая таба</string>
+    <string name="tab2">вторая таба</string>
+    <string name="tab3">третья таба</string>
 </resources>
