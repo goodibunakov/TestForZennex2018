@@ -5,4 +5,8 @@
     <string name="tab1">первая таба</string>
     <string name="tab2">вторая таба</string>
     <string name="tab3">третья таба</string>
+    <string name="tab_title1">Список</string>
+    <string name="tab_title2">Фото</string>
+    <string name="tab_title3">Веб</string>
+    <string name="tab_title4">Карта</string>
 </resources>

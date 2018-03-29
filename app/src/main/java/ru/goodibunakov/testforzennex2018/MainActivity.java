@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         final ViewPager viewPager = findViewById(R.id.pager);
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "People");
-        adapter.addFragment(new TwoFragment(), "Group");
-        adapter.addFragment(new ThreeFragment(), "Calls");
-        adapter.addFragment(new FourFragment(), "4");
+        adapter.addFragment(new OneFragment(), getResources().getString(R.string.tab_title1));
+        adapter.addFragment(new TwoFragment(), getResources().getString(R.string.tab_title2));
+        adapter.addFragment(new ThreeFragment(), getResources().getString(R.string.tab_title3));
+        adapter.addFragment(new FourFragment(), getResources().getString(R.string.tab_title4));
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);
