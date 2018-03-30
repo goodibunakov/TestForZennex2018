@@ -2,17 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.goodibunakov.testforzennex2018">
 
-    <!--используется API-интерфейсом для загрузки листов карты с серверов Google Maps-->
+    <!-- используется API-интерфейсом для загрузки листов карты с серверов Google Maps -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--Определить местоположение пользователя с помощью GPS. Это даст нам точное местоположение-->
+    <!-- Определить местоположение пользователя с помощью GPS. Это даст нам точное местоположение -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--Чтобы определить местоположение пользователя, используя WiFi и мобильный телефон. Это даст нам приблизительное местоположение-->
+    <!-- Чтобы определить местоположение пользователя, используя WiFi и мобильный телефон. Это даст нам приблизительное местоположение -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!--позволяет API-интерфейсу проверять состояние подключения для определения возможности загрузки данных-->
+    <!-- позволяет API-интерфейсу проверять состояние подключения для определения возможности загрузки данных -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +40,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".activities.PhotoActivity"></activity>
     </application>
 
 </manifest>

@@ -15,10 +15,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.adapters.TabAdapter;
-import ru.goodibunakov.testforzennex2018.fragments.FourFragment;
+import ru.goodibunakov.testforzennex2018.fragments.MapFragment;
 import ru.goodibunakov.testforzennex2018.fragments.OneFragment;
-import ru.goodibunakov.testforzennex2018.fragments.ThreeFragment;
-import ru.goodibunakov.testforzennex2018.fragments.TwoFragment;
+import ru.goodibunakov.testforzennex2018.fragments.JsonFragment;
+import ru.goodibunakov.testforzennex2018.fragments.PhotoFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new OneFragment(), getResources().getString(R.string.tab_title1));
-        adapter.addFragment(new TwoFragment(), getResources().getString(R.string.tab_title2));
-        adapter.addFragment(new ThreeFragment(), getResources().getString(R.string.tab_title3));
-        adapter.addFragment(new FourFragment(), getResources().getString(R.string.tab_title4));
+        adapter.addFragment(new PhotoFragment(), getResources().getString(R.string.tab_title2));
+        adapter.addFragment(new JsonFragment(), getResources().getString(R.string.tab_title3));
+        adapter.addFragment(new MapFragment(), getResources().getString(R.string.tab_title4));
         viewPager.setAdapter(adapter);
 
         tabLayout.setupWithViewPager(viewPager);

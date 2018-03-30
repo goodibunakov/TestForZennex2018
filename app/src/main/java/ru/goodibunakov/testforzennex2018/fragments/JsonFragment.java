@@ -18,14 +18,14 @@ import ru.goodibunakov.testforzennex2018.utils.MyTask;
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.adapters.RecyclerJSONAdapter;
 
-public class ThreeFragment extends Fragment implements MyTask.OnTaskComplete {
+public class JsonFragment extends Fragment implements MyTask.OnTaskComplete {
 
     RecyclerView recyclerView;
     ProgressBar progressBar;
     private ArrayList<String> arrayList = new ArrayList<>();
     private static final String url = "http://quotes.zennex.ru/api/v3/bash/quotes?sort=time";
 
-    public ThreeFragment() {
+    public JsonFragment() {
         // Required empty public constructor
     }
 
@@ -39,7 +39,7 @@ public class ThreeFragment extends Fragment implements MyTask.OnTaskComplete {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_three, container, false);
+        View v = inflater.inflate(R.layout.fragment_json, container, false);
         progressBar = v.findViewById(R.id.progress_bar);
         recyclerView = v.findViewById(R.id.list);
         return v;
@@ -49,7 +49,7 @@ public class ThreeFragment extends Fragment implements MyTask.OnTaskComplete {
     public void onResume() {
         super.onResume();
         progressBar.setVisibility(View.VISIBLE);
-        MyTask myTask = new MyTask(ThreeFragment.this);
+        MyTask myTask = new MyTask(JsonFragment.this);
         myTask.execute(url);
     }
 
