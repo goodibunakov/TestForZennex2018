@@ -1,5 +1,7 @@
-package ru.goodibunakov.testforzennex2018;
+package ru.goodibunakov.testforzennex2018.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -7,6 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import ru.goodibunakov.testforzennex2018.R;
+import ru.goodibunakov.testforzennex2018.adapters.TabAdapter;
 import ru.goodibunakov.testforzennex2018.fragments.FourFragment;
 import ru.goodibunakov.testforzennex2018.fragments.OneFragment;
 import ru.goodibunakov.testforzennex2018.fragments.ThreeFragment;
@@ -14,11 +21,33 @@ import ru.goodibunakov.testforzennex2018.fragments.TwoFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_ERROR = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //проверка доступности play services
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int errorCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (errorCode != ConnectionResult.SUCCESS){
+            Dialog errorDialog = apiAvailability.getErrorDialog(this, errorCode, REQUEST_ERROR,
+                    new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            //выйти если сервис не доступен
+                            finish();
+                        }
+                    });
+            errorDialog.show();
+        }
+
     }
 
     @Override

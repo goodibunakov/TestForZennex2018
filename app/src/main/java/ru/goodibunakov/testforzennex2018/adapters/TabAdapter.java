@@ -1,4 +1,4 @@
-package ru.goodibunakov.testforzennex2018;
+package ru.goodibunakov.testforzennex2018.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

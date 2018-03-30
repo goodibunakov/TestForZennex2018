@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Test For Zennex</string>
+    <string name="app_name">Zennex</string>
     <string name="splash_text">Тестовое задание</string>
     <string name="cant_back">Нельзя вернуться назад</string>
     <string name="tab1">первая таба</string>
@@ -9,4 +9,7 @@
     <string name="tab_title2">Фото</string>
     <string name="tab_title3">Веб</string>
     <string name="tab_title4">Карта</string>
+    <string name="my_location">Моя локация</string>
+    <string name="latitude">Широта</string>
+    <string name="longitude">Долгота</string>
 </resources>

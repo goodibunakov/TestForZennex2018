@@ -1,4 +1,4 @@
-package ru.goodibunakov.testforzennex2018;
+package ru.goodibunakov.testforzennex2018.activities;
 
 import android.content.Intent;
 
@@ -6,6 +6,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
+
+import ru.goodibunakov.testforzennex2018.R;
 
 public class SplashActivity extends AwesomeSplash {
 
