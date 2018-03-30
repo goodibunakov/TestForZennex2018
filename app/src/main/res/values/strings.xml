@@ -12,4 +12,5 @@
     <string name="my_location">Моя локация</string>
     <string name="latitude">Широта</string>
     <string name="longitude">Долгота</string>
+    <string name="fuck">Сбой при подключени к серверу...</string>
 </resources>
