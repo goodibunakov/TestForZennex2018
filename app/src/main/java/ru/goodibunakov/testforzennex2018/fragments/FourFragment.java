@@ -89,17 +89,21 @@ public class FourFragment extends Fragment implements  OnMapReadyCallback {
     //    В этом случае она предоставляет экземпляр GoogleMap, отличный от null.
     //    Объект GoogleMap можно использовать, например, чтобы устанавливать параметры просмотра карты
     //    или добавлять маркеры.
-    @SuppressLint("MissingPermission")
+//    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.getUiSettings().setZoomControlsEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        map.setMyLocationEnabled(true);
+        if (ContextCompat.checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]) == PackageManager.PERMISSION_GRANTED) {
+            if (hasLocationPermission()) {
+                map.setMyLocationEnabled(true);
+            } else {
+                requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
+            }
+        }
         map.setOnMyLocationButtonClickListener(myLocationButtonClickListener);
     }
-
-
 
     private GoogleMap.OnMyLocationButtonClickListener myLocationButtonClickListener = new GoogleMap.OnMyLocationButtonClickListener() {
         @Override

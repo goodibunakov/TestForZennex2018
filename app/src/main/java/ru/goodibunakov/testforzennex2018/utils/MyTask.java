@@ -1,4 +1,4 @@
-package ru.goodibunakov.testforzennex2018;
+package ru.goodibunakov.testforzennex2018.utils;
 
 import android.os.AsyncTask;
 
@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class MyTask extends AsyncTask<String, Void, ArrayList> {
 
@@ -63,6 +64,12 @@ public class MyTask extends AsyncTask<String, Void, ArrayList> {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+        //чтобы показать процесс загрузки
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return parseJSON(result.toString());
     }

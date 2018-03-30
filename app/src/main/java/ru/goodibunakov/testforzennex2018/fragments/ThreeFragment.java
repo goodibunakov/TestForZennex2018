@@ -2,20 +2,19 @@ package ru.goodibunakov.testforzennex2018.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ru.goodibunakov.testforzennex2018.MyTask;
+import ru.goodibunakov.testforzennex2018.utils.MyTask;
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.adapters.RecyclerJSONAdapter;
 
@@ -28,6 +27,12 @@ public class ThreeFragment extends Fragment implements MyTask.OnTaskComplete {
 
     public ThreeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
