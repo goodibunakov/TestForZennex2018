@@ -109,12 +109,15 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback {
 
             // Creating a criteria object to retrieve provider
             Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
             // Getting the name of the best provider
             String provider = locationManager.getBestProvider(criteria, true);
 
             // Getting Current Location
-            @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(provider);
+            //TODO
+            @SuppressLint("MissingPermission")
+            Location location = locationManager.getLastKnownLocation(provider);
 
             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
             t1.setText(getResources().getString(R.string.latitude) + ": " + String.valueOf(location.getLatitude()));

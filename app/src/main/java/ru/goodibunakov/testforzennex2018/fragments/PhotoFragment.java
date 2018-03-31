@@ -8,19 +8,26 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.File;
+
+import ru.goodibunakov.testforzennex2018.BuildConfig;
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.activities.PhotoActivity;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class PhotoFragment extends Fragment implements View.OnClickListener {
@@ -38,12 +45,13 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_photo, container, false);
         btnGallery = v.findViewById(R.id.btn_gallery);
         btnPhoto = v.findViewById(R.id.btn_photo);
         btnGallery.setOnClickListener(PhotoFragment.this);
         btnPhoto.setOnClickListener(PhotoFragment.this);
+        uri = generateFileUri();
         return v;
     }
 
@@ -74,6 +82,13 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.btn_photo:
+                if (uri == null) {
+                    Toast.makeText(getView().getContext(), getResources().getString(R.string.sd_not), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(intentCamera, PHOTO_INTENT_REQUEST_CODE);
                 break;
         }
     }
@@ -96,9 +111,59 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case PHOTO_INTENT_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    //берем сгенерированный uri
+                    Uri selectedImage = uri;
+                    //создаем интент для запуска новой активити
+                    Intent last_intent_photo = new Intent(getView().getContext(), PhotoActivity.class);
+                    //помещаем в интент этот uri
+                    last_intent_photo.putExtra("fotka", selectedImage);
+                    //стартуем новую активити
+                    startActivity(last_intent_photo);
 
+                } else if (resultCode == RESULT_CANCELED)
+                    Toast.makeText(getView().getContext(), "Capture cancelled", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getView().getContext(), "Capture failed", Toast.LENGTH_LONG).show();
                 break;
+            default: super.onActivityResult(requestCode, resultCode, imageReturned);
+        }
+    }
 
+    private Uri generateFileUri() {
+        // Проверяем доступность SD карты
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            return null;
+
+        // Проверяем и создаем директорию
+        File path = new File (Environment.getExternalStorageDirectory(), "CameraTest");
+        if (! path.exists()){
+            if (! path.mkdirs()){
+                return null;
+            }
+        }
+
+        // Создаем имя файла
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        File newFile = new File(path.getPath() + File.separator + timeStamp + ".jpg");
+        return FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", newFile);
+    }
+
+    // сохраняеем состояние
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (uri != null) {
+            outState.putString("uri", uri.toString());
+        }
+    }
+
+    // восстанавливаем состояние
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey("uri")) {
+            uri = Uri.parse(savedInstanceState.getString("uri"));
         }
     }
 }

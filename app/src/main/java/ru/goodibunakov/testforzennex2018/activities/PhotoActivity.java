@@ -8,22 +8,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.ZoomControls;
 
 import java.io.IOException;
 
 import ru.goodibunakov.testforzennex2018.R;
+import ru.goodibunakov.testforzennex2018.utils.TouchImageView;
 
 public class PhotoActivity extends AppCompatActivity {
 
-    ImageView imageView;
+    TouchImageView imageView;
     private Bitmap bmp;
     RelativeLayout relativeLayout;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -34,7 +33,6 @@ public class PhotoActivity extends AppCompatActivity {
         imageView = findViewById(R.id.full_photo);
         relativeLayout = findViewById(R.id.rl);
 
-
         //получаем интент, достаем из него фотку и ставим в имиджвью
         Intent intent = getIntent();
         Uri uri = intent.getExtras().getParcelable("fotka");
@@ -44,19 +42,11 @@ public class PhotoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         imageView.setImageBitmap(bmp);
+        imageView.setMaxZoom(4f);
 
         //инициализация зум контролс
         final ZoomControls simpleZoomControls = findViewById(R.id.zoom_controls);
-        simpleZoomControls.hide(); // сначала скрываем контролы с экрана
-        // устанавливаем слушатель события setOnTouchListener
-        relativeLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // показываем контролы при прикосновении к картинке
-                simpleZoomControls.show();
-                return false;
-            }
-        });
+
         // увеличение
         simpleZoomControls.setOnZoomInClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +57,6 @@ public class PhotoActivity extends AppCompatActivity {
                 // set increased value of scale x and y to perform zoom in functionality
                 imageView.setScaleX((float) (x + 0.1));
                 imageView.setScaleY((float) (y + 0.1));
-                // display a toast to show Zoom In Message on Screen
-                Toast.makeText(getApplicationContext(),"Zoom In",Toast.LENGTH_SHORT).show();
-                // hide the ZoomControls from the screen
-                simpleZoomControls.hide();
             }
         });
 
@@ -78,15 +64,21 @@ public class PhotoActivity extends AppCompatActivity {
         simpleZoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int w = imageView.getWidth();
-                int h = imageView.getHeight();
+//                int w = imageView.getWidth();
+//                int h = imageView.getHeight();
+//
+//                RelativeLayout.LayoutParams params =
+//                        new RelativeLayout.LayoutParams(w - 50, h - 50);
+//                params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//
+//                imageView.setLayoutParams(params);
 
-                RelativeLayout.LayoutParams params =
-                        new RelativeLayout.LayoutParams(w - 10, h - 10);
-                params.addRule(RelativeLayout.CENTER_IN_PARENT);
-
-                imageView.setLayoutParams(params);
-                simpleZoomControls.hide();
+                // calculate current scale x and y value of ImageView
+                float x = imageView.getScaleX();
+                float y = imageView.getScaleY();
+                // set increased value of scale x and y to perform zoom in functionality
+                imageView.setScaleX((float) (x - 0.1));
+                imageView.setScaleY((float) (y - 0.1));
             }
         });
     }
