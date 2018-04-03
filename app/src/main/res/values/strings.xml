@@ -1,19 +1,17 @@
 <resources>
     <string name="app_name">Zennex</string>
-    <string name="splash_text">Тестовое задание - Евгений Бунаков</string>
-    <string name="cant_back">Нельзя вернуться назад</string>
-    <string name="tab1">первая таба</string>
-    <string name="tab2">вторая таба</string>
-    <string name="tab3">третья таба</string>
-    <string name="tab_title1">Список</string>
-    <string name="tab_title2">Фото</string>
-    <string name="tab_title3">Веб</string>
-    <string name="tab_title4">Карта</string>
-    <string name="my_location">Моя локация</string>
-    <string name="latitude">Широта</string>
-    <string name="longitude">Долгота</string>
-    <string name="fuck">Сбой при подключени к серверу...</string>
-    <string name="btn_gallery">Галерея</string>
-    <string name="btn_photo">Камера</string>
+    <string name="splash_text">Test task - Evgeny Bunakov</string>
+    <string name="cant_back">You can not go back</string>
+    <string name="tab_title1">List</string>
+    <string name="tab_title2">Photo</string>
+    <string name="tab_title3">Web</string>
+    <string name="tab_title4">Map</string>
+    <string name="my_location">My location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longtitude</string>
+    <string name="fuck">Server connection failure…</string>
+    <string name="btn_gallery">Gallery</string>
+    <string name="btn_photo">Camera</string>
     <string name="sd_not">SD card not available</string>
+    <string name="menu">Change language</string>
 </resources>
