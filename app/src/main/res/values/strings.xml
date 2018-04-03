@@ -14,4 +14,5 @@
     <string name="btn_photo">Camera</string>
     <string name="sd_not">SD card not available</string>
     <string name="menu">Change language</string>
+    <string name="delete_person">Person deleted successfully</string>
 </resources>
