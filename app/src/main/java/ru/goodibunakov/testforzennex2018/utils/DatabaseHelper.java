@@ -88,12 +88,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 person.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 person.setName(cursor.getString(cursor.getColumnIndex(COLUMN_PERSON_NAME)));
                 person.setCheckBox(cursor.getInt(cursor.getColumnIndex(COLUMN_PERSON_CHECKBOX)));
-                //person.setImage(cursor.getString(cursor.getColumnIndex(COLUMN_PERSON_IMAGE)));
                 personLinkedList.add(person);
-                //Log.d("person", person.toString());
             } while (cursor.moveToNext());
         }
-       // Log.d ("personLinked list", String.valueOf(personLinkedList));
         return personLinkedList;
     }
 
@@ -127,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updatePerson(int personId, Context context, Person updatedPerson) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE  " + TABLE_NAME + " SET name ='" + updatedPerson.getName() + "', checkbox ='" + updatedPerson.getCheckBox()+ "' WHERE _id='" + personId + "'");
-        Toast.makeText(context, "Updated successfully.", Toast.LENGTH_SHORT).show();
+        db.close();
     }
 
     //вызывается при обновлении базы данных

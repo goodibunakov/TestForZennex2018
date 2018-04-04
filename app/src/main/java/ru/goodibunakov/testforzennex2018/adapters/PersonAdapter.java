@@ -29,17 +29,15 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     private RecyclerView recyclerView;
     private SparseIntArray checkedState;
 
-    void updateCheckStateList() {
+    public void updateCheckStateList() {
         checkedState.clear();
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         peopleList = databaseHelper.peopleList();
-        Log.d("updateCheckStateList", peopleList.toString());
         for (ListIterator<Person> iter = peopleList.listIterator(); iter.hasNext(); ) {
             Person p = iter.next();
             int id = p.getId();
             int checkBoxState = p.getCheckBox();
             checkedState.put(id, checkBoxState);
-            Log.d("updateCheckStateList", String.valueOf(checkBoxState));
         }
     }
 
@@ -50,8 +48,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         //коллекция для сохранения состояния чекбоксов по состоянию из БД
         checkedState = new SparseIntArray(peopleList.size());
         updateCheckStateList();
-
-        Log.d("check", checkedState.toString());
     }
 
     @Override
@@ -65,7 +61,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        //Log.d("bindview holder", " position " + position);
         //получаем персону по позиции
         final Person person = peopleList.get(position);
         //имя в текствью
@@ -99,14 +94,11 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                 int clickedId = person.getId();
                 String name = person.getName();
                 Person updatedPerson = new Person(name, checkState);
-                Log.d("updatedPerson", updatedPerson.getName() + "  " + updatedPerson.getCheckBox());
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
                 dbHelper.updatePerson(clickedId, context, updatedPerson);
 
                 updateCheckStateList();
                 postAndNotifyAdapter(new Handler(), recyclerView, PersonAdapter.this);
-
-                Log.d("check2", checkedState.toString());
             }
         });
 

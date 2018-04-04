@@ -19,7 +19,9 @@ import android.widget.EditText;
 import java.util.List;
 
 import ru.goodibunakov.testforzennex2018.R;
+import ru.goodibunakov.testforzennex2018.activities.MainActivity;
 import ru.goodibunakov.testforzennex2018.adapters.PersonAdapter;
+import ru.goodibunakov.testforzennex2018.model.Person;
 import ru.goodibunakov.testforzennex2018.utils.DatabaseHelper;
 
 public class ListFragment extends Fragment {
@@ -29,7 +31,6 @@ public class ListFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     RecyclerView rv;
     PersonAdapter adapter;
-    List peopleForAdapter;
 
     public ListFragment() {
         // Required empty public constructor
@@ -44,9 +45,7 @@ public class ListFragment extends Fragment {
         rv = v.findViewById(R.id.recyclerView);
 
         databaseHelper = new DatabaseHelper(v.getContext());
-        peopleForAdapter = databaseHelper.peopleList();
-        //Log.d("onreateview", peopleForAdapter.toString());
-        adapter = new PersonAdapter(peopleForAdapter, getActivity(), rv);
+        adapter = new PersonAdapter(databaseHelper.peopleList(), getActivity(), rv);
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
@@ -84,10 +83,13 @@ public class ListFragment extends Fragment {
                                        builder.setPositiveButton(R.string.btn_add, new DialogInterface.OnClickListener() {
                                            @Override
                                            public void onClick(DialogInterface dialog, int which) {
-                                               String newMan = "";
-                                               if (edText.getText() != null) newMan = edText.getText().toString();
-
-
+                                               String newPersonName = "";
+                                               if (edText.getText() != null) newPersonName = edText.getText().toString();
+                                               Person person = new Person(newPersonName, 0);
+                                               databaseHelper.saveNewPerson(person);
+                                               adapter.updateCheckStateList();
+                                               adapter.notifyItemInserted(adapter.getItemCount());
+                                               rv.scrollToPosition(adapter.getItemCount()-1);
                                            }
                                        });
                                        //кнопка отменить
@@ -115,8 +117,7 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         adapter.notifyDataSetChanged();
     }
-
-
 }
