@@ -6,7 +6,6 @@
     <string name="tab_title2">Photo</string>
     <string name="tab_title3">Web</string>
     <string name="tab_title4">Map</string>
-    <string name="my_location">My location</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longtitude</string>
     <string name="fuck">Server connection failure…</string>
@@ -14,15 +13,17 @@
     <string name="btn_photo">Camera</string>
     <string name="sd_not">SD card not available</string>
     <string name="menu">Change language</string>
-    <string name="delete_person">Person deleted successfully</string>
     <string name="dialog_add_title">Add person</string>
     <string name="dialog_backbutton_title">Save changes?</string>
     <string name="btn_add">Add</string>
     <string name="btn_save">Save</string>
     <string name="btn_not">Sorry, no</string>
     <string name="btn_rev">Revert</string>
-    <string name="add_title">ADD NEW PERSON</string>
     <string name="edit_title">Edit person</string>
     <string name="btn_update">Update</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="delete_title">Delete person?</string>
+    <string name="btn_delete">Delete</string>
+    <string name="deleted">Deleted!</string>
+    <string name="click_again">Click again please</string>
 </resources>

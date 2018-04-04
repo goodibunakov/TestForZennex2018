@@ -25,23 +25,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ru.goodibunakov.testforzennex2018.R;
 
-import static java.lang.String.valueOf;
-
-public class MapFragment extends Fragment implements  OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     MapView mapView;
     GoogleMap map;
     TextView t1, t2;
 
-    private static final String[] LOCATION_PERMISSIONS = new String []{
-      Manifest.permission.ACCESS_FINE_LOCATION,
-      Manifest.permission.ACCESS_COARSE_LOCATION
+    private static final String[] LOCATION_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
     private static final int REQUEST_LOCATION_PERMISSIONS = 0;
 
     //проверка выдано ли разрешение определять местоположение
-    private boolean hasLocationPermission(){
+    private boolean hasLocationPermission() {
         int result = ContextCompat.checkSelfPermission(getActivity(), LOCATION_PERMISSIONS[0]);
         return result == PackageManager.PERMISSION_GRANTED;
     }
@@ -69,12 +67,11 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback {
         return v;
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSIONS){
-            if (hasLocationPermission()){
+        if (requestCode == REQUEST_LOCATION_PERMISSIONS) {
+            if (hasLocationPermission()) {
                 mapView.getMapAsync(this);
             }
         }
@@ -85,7 +82,7 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback {
     //    В этом случае она предоставляет экземпляр GoogleMap, отличный от null.
     //    Объект GoogleMap можно использовать, например, чтобы устанавливать параметры просмотра карты
     //    или добавлять маркеры.
-//    @SuppressLint("MissingPermission")
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -102,6 +99,7 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback {
     }
 
     private GoogleMap.OnMyLocationButtonClickListener myLocationButtonClickListener = new GoogleMap.OnMyLocationButtonClickListener() {
+        @SuppressLint("MissingPermission")
         @Override
         public boolean onMyLocationButtonClick() {
             // Getting LocationManager object from System Service LOCATION_SERVICE
@@ -115,17 +113,25 @@ public class MapFragment extends Fragment implements  OnMapReadyCallback {
             String provider = locationManager.getBestProvider(criteria, true);
 
             // Getting Current Location
-            //TODO
-            @SuppressLint("MissingPermission")
-            Location location = locationManager.getLastKnownLocation(provider);
+            Location location = null;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (hasLocationPermission()) {
+                    location = locationManager.getLastKnownLocation(provider);
+                } else {
+                    requestPermissions(LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
+                }
+            } else {
+                location = locationManager.getLastKnownLocation(provider);
+            }
 
             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
             t1.setText(getResources().getString(R.string.latitude) + ": " + String.valueOf(location.getLatitude()));
             t2.setText(getResources().getString(R.string.longitude) + ": " + String.valueOf(location.getLongitude()));
             map.addMarker(new MarkerOptions().position(loc));
-            if(map != null){
+            if (map != null) {
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
             }
+
             return false;
         }
     };

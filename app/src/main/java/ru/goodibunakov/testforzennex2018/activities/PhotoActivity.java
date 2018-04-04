@@ -23,7 +23,6 @@ public class PhotoActivity extends AppCompatActivity {
     private Bitmap bmp;
     RelativeLayout relativeLayout;
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +50,10 @@ public class PhotoActivity extends AppCompatActivity {
         simpleZoomControls.setOnZoomInClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calculate current scale x and y value of ImageView
+                // вычисляем текущие значения масштаба x и y ImageView
                 float x = imageView.getScaleX();
                 float y = imageView.getScaleY();
-                // set increased value of scale x and y to perform zoom in functionality
+                // устанавливаем шаг увеличения картинки
                 imageView.setScaleX((float) (x + 0.1));
                 imageView.setScaleY((float) (y + 0.1));
             }
@@ -64,19 +63,10 @@ public class PhotoActivity extends AppCompatActivity {
         simpleZoomControls.setOnZoomOutClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                int w = imageView.getWidth();
-//                int h = imageView.getHeight();
-//
-//                RelativeLayout.LayoutParams params =
-//                        new RelativeLayout.LayoutParams(w - 50, h - 50);
-//                params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//
-//                imageView.setLayoutParams(params);
-
-                // calculate current scale x and y value of ImageView
+                // вычисляем текущие значения масштаба x и y ImageView
                 float x = imageView.getScaleX();
                 float y = imageView.getScaleY();
-                // set increased value of scale x and y to perform zoom in functionality
+                // устанавливаем шаг уменьшения картинки
                 imageView.setScaleX((float) (x - 0.1));
                 imageView.setScaleY((float) (y - 0.1));
             }

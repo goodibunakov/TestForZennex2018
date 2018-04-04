@@ -3,7 +3,6 @@ package ru.goodibunakov.testforzennex2018.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import ru.goodibunakov.testforzennex2018.utils.DatabaseHelper;
 public class ListFragment extends Fragment {
 
     private FloatingActionButton fab;
-    private SQLiteDatabase db;
     private DatabaseHelper databaseHelper;
     RecyclerView rv;
     PersonAdapter adapter;
@@ -130,10 +128,7 @@ public class ListFragment extends Fragment {
                 builder.create().show();
             }
         });
-
-
         return v;
-
     }
 
     @Override
@@ -141,5 +136,4 @@ public class ListFragment extends Fragment {
         super.onResume();
         adapter.notifyDataSetChanged();
     }
-
 }

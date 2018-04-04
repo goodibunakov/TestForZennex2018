@@ -23,9 +23,9 @@ import java.util.Locale;
 
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.adapters.TabAdapter;
-import ru.goodibunakov.testforzennex2018.fragments.MapFragment;
-import ru.goodibunakov.testforzennex2018.fragments.ListFragment;
 import ru.goodibunakov.testforzennex2018.fragments.JsonFragment;
+import ru.goodibunakov.testforzennex2018.fragments.ListFragment;
+import ru.goodibunakov.testforzennex2018.fragments.MapFragment;
 import ru.goodibunakov.testforzennex2018.fragments.PhotoFragment;
 import ru.goodibunakov.testforzennex2018.utils.PreferenceHelper;
 
@@ -49,14 +49,12 @@ public class MainActivity extends AppCompatActivity {
         config = getBaseContext().getResources().getConfiguration();
 
         String lang = settings.getString(LANG, "");
-        if (! "".equals(lang) && ! config.locale.getLanguage().equals(lang))
-        {
+        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             locale = new Locale(lang);
             Locale.setDefault(locale);
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
-
         setUI();
     }
 
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //проверка доступности play services
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int errorCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (errorCode != ConnectionResult.SUCCESS){
+        if (errorCode != ConnectionResult.SUCCESS) {
             Dialog errorDialog = apiAvailability.getErrorDialog(this, errorCode, REQUEST_ERROR,
                     new DialogInterface.OnCancelListener() {
                         @Override
@@ -77,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     });
             errorDialog.show();
         }
-
     }
 
     @Override
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         //MenuItem menuItem = menu.findItem(R.id.lang);
-        //menuItem.setChecked(preferenceHelper.getBoolean(PreferenceHelper.LANG));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -98,14 +94,13 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-        if (id == R.id.lang){
+        if (id == R.id.lang) {
             item.setChecked(!item.isChecked());
             preferenceHelper.putBoolean(PreferenceHelper.LANG, item.isChecked());
             config.locale = Locale.ENGLISH;
             preferenceHelper.putBoolean(PreferenceHelper.LANG, true);
-        } else  config.locale = Locale.forLanguageTag(LANG);
+        } else config.locale = Locale.forLanguageTag(LANG);
         preferenceHelper.putBoolean(PreferenceHelper.LANG, false);
         getResources().updateConfiguration(config, null);
         return super.onOptionsItemSelected(item);

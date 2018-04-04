@@ -12,7 +12,7 @@ import ru.goodibunakov.testforzennex2018.R;
 
 public class RecyclerJSONAdapter extends RecyclerView.Adapter<RecyclerJSONAdapter.ViewHolder> {
 
-    ArrayList<String> arrayList;
+    private ArrayList<String> arrayList;
 
     public RecyclerJSONAdapter(ArrayList<String> fromAsyncTask) {
         arrayList = fromAsyncTask;
@@ -31,13 +31,11 @@ public class RecyclerJSONAdapter extends RecyclerView.Adapter<RecyclerJSONAdapte
     @Override
     public RecyclerJSONAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_parsing, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(RecyclerJSONAdapter.ViewHolder holder, int position) {
-        //personViewHolder.personName.setText(persons.get(i).name);
         holder.tv.setText(arrayList.get(position));
     }
 

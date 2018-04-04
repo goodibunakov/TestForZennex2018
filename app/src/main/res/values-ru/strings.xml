@@ -6,7 +6,6 @@
     <string name="tab_title2">Фото</string>
     <string name="tab_title3">Веб</string>
     <string name="tab_title4">Карта</string>
-    <string name="my_location">Моя локация</string>
     <string name="latitude">Широта</string>
     <string name="longitude">Долгота</string>
     <string name="fuck">Сбой при подключени к серверу…</string>
@@ -14,5 +13,17 @@
     <string name="btn_photo">Камера</string>
     <string name="sd_not">SD-карта не доступна</string>
     <string name="menu">Сменить язык</string>
-    <string name="delete_person">Персона успешно удалена</string>
+    <string name="dialog_add_title">Добавить персону</string>
+    <string name="dialog_backbutton_title">Сохранить изменения?</string>
+    <string name="btn_add">Добавить</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_not">Извините, но нет</string>
+    <string name="btn_rev">Отбой</string>
+    <string name="edit_title">Редактирование персоны</string>
+    <string name="btn_update">Обновить</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="delete_title">Удалить персону?</string>
+    <string name="btn_delete">Удалить</string>
+    <string name="deleted">Удалено</string>
+    <string name="click_again">Нажмите еще раз</string>
 </resources>

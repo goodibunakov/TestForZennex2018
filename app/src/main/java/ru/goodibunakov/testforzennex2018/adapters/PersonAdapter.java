@@ -14,9 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import ru.goodibunakov.testforzennex2018.R;
 import ru.goodibunakov.testforzennex2018.model.Person;
@@ -33,8 +33,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         checkedState.clear();
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         peopleList = databaseHelper.peopleList();
-        for (ListIterator<Person> iter = peopleList.listIterator(); iter.hasNext(); ) {
-            Person p = iter.next();
+        for (Person p : peopleList) {
             int id = p.getId();
             int checkBoxState = p.getCheckBox();
             checkedState.put(id, checkBoxState);
@@ -60,7 +59,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         //получаем персону по позиции
         final Person person = peopleList.get(position);
         //имя в текствью
@@ -78,6 +77,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             holder.avatar.setImageDrawable(context.getResources().getDrawable(R.drawable.avatar));
         }
 
+        //обработка кликов чекбокс
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -109,7 +109,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                 final String nameEditPerson = person.getName();
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.edit_title);
-                //builder.setMessage("Update or delete user?");
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View editLayout = inflater.inflate(R.layout.edit_layout, null);
                 final EditText edText2 = editLayout.findViewById(R.id.edit_text_edit_layout);
@@ -139,6 +138,27 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                 builder.create().show();
             }
         });
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+                builder.setTitle(R.string.delete_title);
+                builder.setPositiveButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseHelper dbHelper = new DatabaseHelper(context);
+                        dbHelper.deletePerson(person.getId(), context);
+                        peopleList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyDataSetChanged();
+                        Toast.makeText(context, context.getResources().getString(R.string.deleted), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -161,16 +181,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             checkBox = v.findViewById(R.id.checkBox);
             avatar = v.findViewById(R.id.avatar);
         }
-    }
-
-    public void add(int position, Person person) {
-        peopleList.add(position, person);
-        notifyItemInserted(position);
-    }
-
-    public void remove(int position) {
-        peopleList.remove(position);
-        notifyItemRemoved(position);
     }
 
     //решение для IllegalStateException: Cannot call this method while RecyclerView is computing a layout or scrolling

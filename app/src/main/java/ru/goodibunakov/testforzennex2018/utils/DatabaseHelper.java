@@ -115,9 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deletePerson(int id, Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE _id='"+id+"'");
-        Toast.makeText(context, "Deleted successfully.", Toast.LENGTH_SHORT).show();
-
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE _id='" + id + "'");
     }
 
     //обновление информации о персоне в БД

@@ -14,7 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+            Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.click_again), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,9 +85,15 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getView().getContext(), getResources().getString(R.string.sd_not), Toast.LENGTH_LONG).show();
                     return;
                 }
-                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(intentCamera, PHOTO_INTENT_REQUEST_CODE);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intentCamera, PHOTO_INTENT_REQUEST_CODE);
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+                    }
+                }
                 break;
         }
     }
@@ -104,7 +109,6 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
                     preinsertedUri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
                     if (selectedImage_gallery == null && preinsertedUri != null)
                         selectedImage_gallery = preinsertedUri;
-                    Log.i("vv", "uri ok" + selectedImage_gallery.toString());
                     Intent last_intent_gallery = new Intent(getView().getContext(), PhotoActivity.class);
                     last_intent_gallery.putExtra("fotka", selectedImage_gallery);
                     startActivity(last_intent_gallery);
@@ -126,7 +130,8 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
                 else
                     Toast.makeText(getView().getContext(), "Capture failed", Toast.LENGTH_LONG).show();
                 break;
-            default: super.onActivityResult(requestCode, resultCode, imageReturned);
+            default:
+                super.onActivityResult(requestCode, resultCode, imageReturned);
         }
     }
 
@@ -136,9 +141,9 @@ public class PhotoFragment extends Fragment implements View.OnClickListener {
             return null;
 
         // Проверяем и создаем директорию
-        File path = new File (Environment.getExternalStorageDirectory(), "CameraTest");
-        if (! path.exists()){
-            if (! path.mkdirs()){
+        File path = new File(Environment.getExternalStorageDirectory(), "CameraTest");
+        if (!path.exists()) {
+            if (!path.mkdirs()) {
                 return null;
             }
         }
