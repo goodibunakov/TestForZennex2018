@@ -131,14 +131,7 @@ public class ListFragment extends Fragment {
             }
         });
 
-        rv.setOnLongClickListener(new View.OnLongClickListener()
 
-        {
-            @Override
-            public boolean onLongClick(View view) {
-                return false;
-            }
-        });
         return v;
 
     }
@@ -146,7 +139,7 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         adapter.notifyDataSetChanged();
     }
+
 }

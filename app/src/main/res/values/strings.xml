@@ -22,4 +22,7 @@
     <string name="btn_not">Sorry, no</string>
     <string name="btn_rev">Revert</string>
     <string name="add_title">ADD NEW PERSON</string>
+    <string name="edit_title">Edit person</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>

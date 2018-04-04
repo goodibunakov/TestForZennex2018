@@ -5,13 +5,13 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -106,32 +106,31 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String nameEditPerson = person.getName();
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Choose option");
-                builder.setMessage("Update or delete user?");
-                builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.edit_title);
+                //builder.setMessage("Update or delete user?");
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View editLayout = inflater.inflate(R.layout.edit_layout, null);
+                final EditText edText2 = editLayout.findViewById(R.id.edit_text_edit_layout);
+                builder.setView(editLayout);
+                edText2.setText(nameEditPerson);
+                builder.setPositiveButton(R.string.btn_update, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (edText2.getText().toString().equals(nameEditPerson)) dialog.dismiss();
+                        else {
+                            int clickedId = person.getId();
+                            Person updatedPerson = new Person(edText2.getText().toString(), 0);
+                            DatabaseHelper dbHelper = new DatabaseHelper(context);
+                            dbHelper.updatePerson(clickedId, context, updatedPerson);
 
-                        //go to update activity
-                        //goToUpdateActivity(person.getId());
-
+                            updateCheckStateList();
+                            postAndNotifyAdapter(new Handler(), recyclerView, PersonAdapter.this);
+                        }
                     }
                 });
-                builder.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        PersonDBHelper dbHelper = new PersonDBHelper(mContext);
-//                        dbHelper.deletePersonRecord(person.getId(), mContext);
-//
-//                        mPeopleList.remove(position);
-//                        mRecyclerV.removeViewAt(position);
-//                        notifyItemRemoved(position);
-//                        notifyItemRangeChanged(position, mPeopleList.size());
-//                        notifyDataSetChanged();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
