@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         saveNewPersons(db, new Person("Денис", 0));
         saveNewPersons(db, new Person("Андрей", 0));
         saveNewPersons(db, new Person("Феофан", 0));
-        saveNewPersons(db, new Person("Просковья", 0));
+        saveNewPersons(db, new Person("Просковья из Подмосковья", 0));
         saveNewPersons(db, new Person("Диман", 0));
         saveNewPersons(db, new Person("Лёха", 0));
         saveNewPersons(db, new Person("Афанасий", 0));
@@ -80,26 +80,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Person> personLinkedList = new LinkedList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        //Log.d("cursor", cursor.toString());
         Person person;
 
         if (cursor.moveToFirst()) {
             do {
                 person = new Person();
-                person.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+                person.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
                 person.setName(cursor.getString(cursor.getColumnIndex(COLUMN_PERSON_NAME)));
                 person.setCheckBox(cursor.getInt(cursor.getColumnIndex(COLUMN_PERSON_CHECKBOX)));
                 //person.setImage(cursor.getString(cursor.getColumnIndex(COLUMN_PERSON_IMAGE)));
                 personLinkedList.add(person);
-                Log.d("person", person.toString());
+                //Log.d("person", person.toString());
             } while (cursor.moveToNext());
         }
-        Log.d ("personLinked list", String.valueOf(personLinkedList));
+       // Log.d ("personLinked list", String.valueOf(personLinkedList));
         return personLinkedList;
     }
 
     //получаем данные одной персоны
-    public Person getPerson(long id) {
+    public Person getPerson(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT  * FROM " + TABLE_NAME + " WHERE _id=" + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -116,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //удаление персоны из БД
-    public void deletePerson(long id, Context context) {
+    public void deletePerson(int id, Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE _id='"+id+"'");
@@ -125,9 +124,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //обновление информации о персоне в БД
-    public void updatePerson(long personId, Context context, Person updatedperson) {
+    public void updatePerson(int personId, Context context, Person updatedPerson) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE  " + TABLE_NAME + " SET name ='" + updatedperson.getName() + "', age ='" + updatedperson.getCheckBox()+ "' WHERE _id='" + personId + "'");
+        db.execSQL("UPDATE  " + TABLE_NAME + " SET name ='" + updatedPerson.getName() + "', checkbox ='" + updatedPerson.getCheckBox()+ "' WHERE _id='" + personId + "'");
         Toast.makeText(context, "Updated successfully.", Toast.LENGTH_SHORT).show();
     }
 
@@ -138,6 +137,3 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 }
-
-
-

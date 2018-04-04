@@ -15,4 +15,8 @@
     <string name="sd_not">SD card not available</string>
     <string name="menu">Change language</string>
     <string name="delete_person">Person deleted successfully</string>
+    <string name="dialog_add_title">Add person</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_rev">Revert</string>
+    <string name="add_title">ADD NEW PERSON</string>
 </resources>
