@@ -19,7 +19,7 @@ public class MyTask extends AsyncTask<String, Void, ArrayList> {
 
     public OnTaskComplete OnTaskComplete;
 
-    public MyTask(OnTaskComplete callback){
+    public MyTask(OnTaskComplete callback) {
         this.OnTaskComplete = callback;
     }
 
@@ -59,8 +59,8 @@ public class MyTask extends AsyncTask<String, Void, ArrayList> {
         } finally {
             try {
                 httpURLConnection.disconnect();
-                if(inputStream != null) inputStream.close();
-                if(reader != null) reader.close();
+                if (inputStream != null) inputStream.close();
+                if (reader != null) reader.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -74,16 +74,16 @@ public class MyTask extends AsyncTask<String, Void, ArrayList> {
         return parseJSON(result.toString());
     }
 
-    private ArrayList<String> parseJSON(String strJSON){
+    private ArrayList<String> parseJSON(String strJSON) {
 
-        ArrayList<String> arrayList=new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<>();
         try {
             if (strJSON != null) {
 
                 JSONObject jsonObject = new JSONObject(strJSON);
                 JSONArray jsonArray = jsonObject.getJSONArray("quotes");
-                arrayList.add("Total: "+jsonObject.getString("total"));
-                arrayList.add("Last: "+jsonObject.getString("last"));
+                arrayList.add("Total: " + jsonObject.getString("total"));
+                arrayList.add("Last: " + jsonObject.getString("last"));
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     arrayList.add("ID: " + jsonArray.getJSONObject(i).getString("id")

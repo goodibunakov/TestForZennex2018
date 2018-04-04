@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -121,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //обновление информации о персоне в БД
     public void updatePerson(int personId, Context context, Person updatedPerson) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE  " + TABLE_NAME + " SET name ='" + updatedPerson.getName() + "', checkbox ='" + updatedPerson.getCheckBox()+ "' WHERE _id='" + personId + "'");
+        db.execSQL("UPDATE  " + TABLE_NAME + " SET name ='" + updatedPerson.getName() + "', checkbox ='" + updatedPerson.getCheckBox() + "' WHERE _id='" + personId + "'");
         db.close();
     }
 

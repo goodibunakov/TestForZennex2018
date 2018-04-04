@@ -4,10 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,34 +24,31 @@ import ru.goodibunakov.testforzennex2018.fragments.JsonFragment;
 import ru.goodibunakov.testforzennex2018.fragments.ListFragment;
 import ru.goodibunakov.testforzennex2018.fragments.MapFragment;
 import ru.goodibunakov.testforzennex2018.fragments.PhotoFragment;
-import ru.goodibunakov.testforzennex2018.utils.PreferenceHelper;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ERROR = 0;
-    PreferenceHelper preferenceHelper;
-    public static final String LANG = "ru";
     Configuration config;
-    private Locale locale = null;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String myLocale;
+        config = getBaseContext().getResources().getConfiguration();
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        if (sharedPreferences.contains("myLocaleSaved")) {
+            myLocale = sharedPreferences.getString("myLocaleSaved", "");
+        } else myLocale = Locale.getDefault().getLanguage();
+        Locale locale = new Locale(myLocale);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_main);
 
-        PreferenceHelper.getInstance().init(getApplicationContext());
-        preferenceHelper = PreferenceHelper.getInstance();
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        config = getBaseContext().getResources().getConfiguration();
-
-        String lang = settings.getString(LANG, "");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            locale = new Locale(lang);
-            Locale.setDefault(locale);
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        }
         setUI();
     }
 
@@ -86,23 +80,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        //MenuItem menuItem = menu.findItem(R.id.lang);
         return super.onCreateOptionsMenu(menu);
     }
 
     //обработка нажатия пункта главного меню
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.lang) {
-            item.setChecked(!item.isChecked());
-            preferenceHelper.putBoolean(PreferenceHelper.LANG, item.isChecked());
-            config.locale = Locale.ENGLISH;
-            preferenceHelper.putBoolean(PreferenceHelper.LANG, true);
-        } else config.locale = Locale.forLanguageTag(LANG);
-        preferenceHelper.putBoolean(PreferenceHelper.LANG, false);
-        getResources().updateConfiguration(config, null);
+            String myLocale, localeToLoad;
+
+            sharedPreferences = getPreferences(MODE_PRIVATE);
+            if (sharedPreferences.contains("myLocaleSaved")) {
+                myLocale = sharedPreferences.getString("myLocaleSaved", "");
+            } else myLocale = Locale.getDefault().getLanguage();
+            if (myLocale == "ru") {
+                localeToLoad = "en";
+            } else localeToLoad = "ru";
+            Locale locale = new Locale(localeToLoad);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("myLocaleSaved", localeToLoad);
+            editor.apply();
+            recreate();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -130,5 +135,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.image);
         tabLayout.getTabAt(2).setIcon(R.drawable.web);
         tabLayout.getTabAt(3).setIcon(R.drawable.google_maps);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        closeOptionsMenu();
     }
 }
