@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,6 +103,7 @@ public class ListFragment extends Fragment {
                         if (!edText.getText().toString().isEmpty()) {
                             AlertDialog.Builder builderBack = new AlertDialog.Builder(getActivity());
                             builderBack.setTitle(getResources().getString(R.string.dialog_backbutton_title));
+                            builderBack.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.alert));
                             builderBack.setPositiveButton(getResources().getString(R.string.btn_save), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
