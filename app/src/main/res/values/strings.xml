@@ -16,7 +16,10 @@
     <string name="menu">Change language</string>
     <string name="delete_person">Person deleted successfully</string>
     <string name="dialog_add_title">Add person</string>
+    <string name="dialog_backbutton_title">Save changes?</string>
     <string name="btn_add">Add</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_not">Sorry, no</string>
     <string name="btn_rev">Revert</string>
     <string name="add_title">ADD NEW PERSON</string>
 </resources>
