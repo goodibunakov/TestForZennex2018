@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             if (sharedPreferences.contains("myLocaleSaved")) {
                 myLocale = sharedPreferences.getString("myLocaleSaved", "");
             } else myLocale = Locale.getDefault().getLanguage();
-            if (myLocale == "ru") {
+            if (myLocale.equals("ru")) {
                 localeToLoad = "en";
             } else localeToLoad = "ru";
             Locale locale = new Locale(localeToLoad);
