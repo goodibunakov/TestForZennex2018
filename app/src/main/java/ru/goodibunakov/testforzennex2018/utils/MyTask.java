@@ -65,12 +65,7 @@ public class MyTask extends AsyncTask<String, Void, ArrayList> {
                 ex.printStackTrace();
             }
         }
-        //чтобы показать процесс загрузки
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         return parseJSON(result.toString());
     }
 
